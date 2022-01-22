@@ -1,0 +1,6 @@
+[submodule "bin/dumps"]
+	path = bin/dumps
+	url = git@github.com:Natsu235/Gibbed.TinyTinaAoDK.Dumps.git
+[submodule "projects/Unreflect"]
+	path = projects/Unreflect
+	url = https://github.com/gibbed/Gibbed.Unreflect
