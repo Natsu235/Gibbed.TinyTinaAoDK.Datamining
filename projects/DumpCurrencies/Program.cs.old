@@ -21,7 +21,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Gibbed.Unreflect.Core;
 using Dataminer = TinyTinaAoDKDatamining.Dataminer;
@@ -37,49 +36,34 @@ namespace DumpCurrencies
 
         private static void Go(Engine engine)
         {
-            var currencyListDefinitionClass = engine.GetClass("WillowGame.CurrencyListDefinition");
-            if (currencyListDefinitionClass == null)
+            var currencyPresentationClass = engine.GetClass("WillowGame.CurrencyListDefinition.CurrencyPresentation");
+            if (currencyPresentationClass == null)
             {
                 throw new InvalidOperationException();
             }
 
-            var currencyListDefinitions = engine.Objects
-                .Where(o => o.IsA(currencyListDefinitionClass) &&
+            var currencyPresentations = engine.Objects
+                .Where(o => o.IsA(currencyPresentationClass) &&
                             o.GetName().StartsWith("Default__") == false)
                 .OrderBy(o => o.GetPath());
 
             using (var writer = Dataminer.NewDump("Currencies.json"))
             {
                 writer.WriteStartObject();
-                foreach (dynamic currencyListDefinition in currencyListDefinitions)
+                foreach (dynamic currencyPresentation in currencyPresentations)
                 {
-                    writer.WritePropertyName(currencyListDefinition.GetPath());
+                    writer.WritePropertyName(currencyPresentation.GetPath());
                     writer.WriteStartObject();
 
-                    writer.WritePropertyName("currencies");
-                    writer.WriteStartArray();
-                    foreach (var currency in currencyListDefinition.Currencies)
-                    {
-                        writer.WriteStartObject();
+                    writer.WritePropertyName("type");
+                    writer.WriteValue(currencyPresentation.Type);
 
-                        writer.WritePropertyName("type");
-                        writer.WriteValue(((CurrencyType)currency.Type).ToString());
+                    writer.WritePropertyName("widget_frame");
+                    writer.WriteValue(currencyPresentation.WidgetFrame);
 
-                        writer.WritePropertyName("widget_frame");
-                        writer.WriteValue(currency.WidgetFrame);
-
-                        writer.WritePropertyName("widget_clip");
-                        writer.WriteValue(currency.WidgetClip.GetPath());
-
-                        writer.WriteEndObject();
-                    }
-
-                    writer.WriteEndArray();
                     writer.WriteEndObject();
                 }
-
                 writer.WriteEndObject();
-                writer.Flush();
             }
         }
     }
