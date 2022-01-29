@@ -8,7 +8,7 @@ They function by dumping information from a running instance of Tiny Tina's Assa
 
 All tools should be run while Tiny Tina's Assault on Dragon Keep is currently in the specified state.
 
-**Notice: There are some problems with how the game handle objects loading which results in items being only available on specific maps. To avoid this, you should always run those tools on the main menu when possible.**
+**Notice: There are some problems with how the game handle objects loading which results in items being only available on specific maps. To avoid this, you should always run those tools on the main menu or in Flamerock Refuge.**
 
 - `DumpAssetLibraryManager`: main menu
 - `DumpBalance`: in-game
